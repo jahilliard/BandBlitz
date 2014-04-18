@@ -1,4 +1,5 @@
 class GenresController < ApplicationController
+  before_action :check_login
   
   def index
     @genres = Genre.alphabetical.to_a

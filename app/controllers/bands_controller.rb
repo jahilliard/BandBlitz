@@ -1,4 +1,5 @@
 class BandsController < ApplicationController
+  before_action :check_login, only: [:new, :create, :edit, :update, :destroy]
 
   def index
     @bands = Band.alphabetical.to_a
