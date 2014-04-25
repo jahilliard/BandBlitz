@@ -2,7 +2,8 @@ class User < ActiveRecord::Base
 	belongs_to :band
 
 	validates_format_of :email, with: /\A[-a-z0-9_+\.]+\@([-a-z0-9]+\.)+[a-z0-9]{2,4}\z/i
-	validates_format_of :role, inclusion: { in %w[member manager admin] }
+	arr = %w(member manager admin)
+	validates :role, inclusion: { in: arr }
 
 	has_secure_password
 
