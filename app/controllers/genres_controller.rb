@@ -1,5 +1,6 @@
 class GenresController < ApplicationController
   before_action :check_login
+  authorize_resource
   
   def index
     @genres = Genre.alphabetical.to_a

@@ -1,6 +1,11 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
+  rescue_from CanCan::AccessDenied do |exception|
+    flash[:error] = "You are a waste of space... GO AWAY!"
+    redirect_to home_path
+  end
+
   private
   def current_user
     @current_user ||= User.find(session[:user_id]) if session[:user_id]

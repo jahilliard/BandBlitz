@@ -1,5 +1,5 @@
 class BandsController < ApplicationController
-  before_action :check_login, only: [:new, :create, :edit, :update, :destroy]
+  # before_action :check_login, only: [:new, :create, :edit, :update, :destroy]
 
   def index
     @bands = Band.alphabetical.to_a
@@ -11,6 +11,7 @@ class BandsController < ApplicationController
 
   def new
     @band = Band.new
+    authorize! :new, @band
   end
 
   def edit
@@ -20,7 +21,8 @@ class BandsController < ApplicationController
   def create
     params[:band][:genre_ids] ? genres = params[:band][:genre_ids] : genres = Array.new
     @band = Band.new(band_params) if Band.check_genres(genres)
-    
+    authorize! :new, @band
+
     if @band.save
       redirect_to(@band, :notice => 'Band was successfully created.')
     else
@@ -32,6 +34,8 @@ class BandsController < ApplicationController
   def update
     @band = Band.find(params[:id])
     Band.check_genres(params[:band][:genre_ids])
+    authorize! :update, @band
+
     if @band.update_attributes(band_params)
       redirect_to(@band, :notice => 'Band was successfully updated.')
     else
@@ -41,6 +45,7 @@ class BandsController < ApplicationController
 
   def destroy
     @band = Band.find(params[:id])
+    authorize! :destroy, @band
     @band.destroy
   end
 

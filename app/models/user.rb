@@ -14,4 +14,11 @@ class User < ActiveRecord::Base
 	def self.authenticate(email,password)
     	find_by_email(email).try(:authenticate, password)
 	end
+
+	ROLES = [['Administrator', :admin],['Band Manager', :manager],['Band Member', :member]]
+
+ 	def role?(authorized_role)
+ 	  return false if role.nil?
+ 	  role.to_sym == authorized_role
+ 	end
 end
